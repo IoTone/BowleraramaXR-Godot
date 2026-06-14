@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://br1t58m55i6fd"]
+
+[ext_resource type="PackedScene" uid="uid://clc5dre31iskm" path="res://addons/godot-xr-tools/xr/start_xr.tscn" id="1_startxr"]
+[ext_resource type="PackedScene" path="res://game/alley.tscn" id="2_alley"]
+[ext_resource type="PackedScene" uid="uid://b4ysuy43poobf" path="res://addons/godot-xr-tools/functions/function_pickup.tscn" id="3_pickup"]
+
+[sub_resource type="SphereMesh" id="HandMesh"]
+radius = 0.03
+height = 0.06
+
+[sub_resource type="StandardMaterial3D" id="HandMat"]
+albedo_color = Color(0, 0.3, 0.4, 1)
+emission_enabled = true
+emission = Color(0, 0.9, 1, 1)
+emission_energy_multiplier = 3.0
+
+[node name="Practice" type="Node3D" unique_id=929519837]
+
+[node name="StartXR" parent="." unique_id=1329162622 instance=ExtResource("1_startxr")]
+
+[node name="Alley" parent="." unique_id=908566543 instance=ExtResource("2_alley")]
+
+[node name="XROrigin3D" type="XROrigin3D" parent="." unique_id=1818245032]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.6)
+
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D" unique_id=413949715]
+
+[node name="LeftController" type="XRController3D" parent="XROrigin3D" unique_id=370186280]
+tracker = &"left_hand"
+
+[node name="HandMesh" type="MeshInstance3D" parent="XROrigin3D/LeftController" unique_id=1504278615]
+mesh = SubResource("HandMesh")
+surface_material_override/0 = SubResource("HandMat")
+
+[node name="FunctionPickup" parent="XROrigin3D/LeftController" unique_id=1389616809 instance=ExtResource("3_pickup")]
+
+[node name="RightController" type="XRController3D" parent="XROrigin3D" unique_id=1190619480]
+tracker = &"right_hand"
+
+[node name="HandMesh" type="MeshInstance3D" parent="XROrigin3D/RightController" unique_id=1565943444]
+mesh = SubResource("HandMesh")
+surface_material_override/0 = SubResource("HandMat")
+
+[node name="FunctionPickup" parent="XROrigin3D/RightController" unique_id=1455128245 instance=ExtResource("3_pickup")]

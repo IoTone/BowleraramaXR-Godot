@@ -1,0 +1,153 @@
+[gd_scene load_steps=23 format=3]
+
+[ext_resource type="Shader" path="res://fx/shaders/synth_sky.gdshader" id="1_sky"]
+[ext_resource type="Shader" path="res://fx/shaders/synth_grid.gdshader" id="2_grid"]
+[ext_resource type="PackedScene" path="res://game/ball/ball.tscn" id="3_ball"]
+[ext_resource type="Script" path="res://game/alley.gd" id="4_alley"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sky"]
+shader = ExtResource("1_sky")
+
+[sub_resource type="Sky" id="Sky_main"]
+sky_material = SubResource("ShaderMaterial_sky")
+
+[sub_resource type="Environment" id="Environment_main"]
+background_mode = 2
+sky = SubResource("Sky_main")
+ambient_light_source = 3
+ambient_light_color = Color(0.4, 0.2, 0.5, 1)
+ambient_light_energy = 0.3
+glow_enabled = true
+glow_intensity = 0.9
+glow_bloom = 0.25
+glow_hdr_threshold = 1.0
+glow_blend_mode = 1
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_floor"]
+size = Vector2(200, 200)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_grid"]
+shader = ExtResource("2_grid")
+
+[sub_resource type="WorldBoundaryShape3D" id="WB_floor"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_lane"]
+size = Vector3(1.1, 0.1, 7)
+
+[sub_resource type="StandardMaterial3D" id="Mat_lane"]
+albedo_color = Color(0.06, 0.02, 0.12, 1)
+metallic = 0.4
+roughness = 0.15
+
+[sub_resource type="BoxShape3D" id="BoxShape_lane"]
+size = Vector3(1.1, 0.1, 7)
+
+[sub_resource type="BoxShape3D" id="BoxShape_bumper"]
+size = Vector3(0.05, 0.4, 7)
+
+[sub_resource type="BoxShape3D" id="BoxShape_backwall"]
+size = Vector3(1.2, 0.6, 0.1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_rail"]
+size = Vector3(0.06, 0.14, 7)
+
+[sub_resource type="StandardMaterial3D" id="Mat_rail"]
+emission_enabled = true
+emission = Color(0.0, 0.9, 1.0, 1)
+emission_energy_multiplier = 4.0
+albedo_color = Color(0.0, 0.3, 0.4, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_foul"]
+size = Vector3(1.3, 0.11, 0.05)
+
+[sub_resource type="StandardMaterial3D" id="Mat_foul"]
+emission_enabled = true
+emission = Color(1.0, 0.1, 0.7, 1)
+emission_energy_multiplier = 4.0
+albedo_color = Color(0.4, 0.0, 0.25, 1)
+
+[sub_resource type="TorusMesh" id="Torus_holder"]
+inner_radius = 0.11
+outer_radius = 0.14
+
+[sub_resource type="StandardMaterial3D" id="Mat_holder"]
+emission_enabled = true
+emission = Color(1.0, 0.1, 0.7, 1)
+emission_energy_multiplier = 4.0
+albedo_color = Color(0.4, 0.0, 0.25, 1)
+
+[node name="Alley" type="Node3D"]
+script = ExtResource("4_alley")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_main")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.866025, -0.25, 0.433013, 0, 0.866025, 0.5, -0.5, -0.433013, 0.75, 0, 8, -4)
+light_energy = 0.6
+light_color = Color(0.8, 0.6, 1, 1)
+
+[node name="GridFloor" type="MeshInstance3D" parent="."]
+mesh = SubResource("PlaneMesh_floor")
+surface_material_override/0 = SubResource("ShaderMaterial_grid")
+
+[node name="FloorBody" type="StaticBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="FloorBody"]
+shape = SubResource("WB_floor")
+
+[node name="Lane" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, -3.5)
+mesh = SubResource("BoxMesh_lane")
+surface_material_override/0 = SubResource("Mat_lane")
+
+[node name="LaneBody" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, -3.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="LaneBody"]
+shape = SubResource("BoxShape_lane")
+
+[node name="BumperLeft" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.575, 0.3, -3.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BumperLeft"]
+shape = SubResource("BoxShape_bumper")
+
+[node name="BumperRight" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.575, 0.3, -3.5)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BumperRight"]
+shape = SubResource("BoxShape_bumper")
+
+[node name="BackWall" type="StaticBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, -7.1)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="BackWall"]
+shape = SubResource("BoxShape_backwall")
+
+[node name="RailLeft" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.58, 0.07, -3.5)
+mesh = SubResource("BoxMesh_rail")
+surface_material_override/0 = SubResource("Mat_rail")
+
+[node name="RailRight" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.58, 0.07, -3.5)
+mesh = SubResource("BoxMesh_rail")
+surface_material_override/0 = SubResource("Mat_rail")
+
+[node name="FoulLine" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.06, 0)
+mesh = SubResource("BoxMesh_foul")
+surface_material_override/0 = SubResource("Mat_foul")
+
+[node name="BallCradle" type="Marker3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0.25)
+
+[node name="BallHolder" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0.25)
+mesh = SubResource("Torus_holder")
+surface_material_override/0 = SubResource("Mat_holder")
+
+[node name="Ball" parent="." instance=ExtResource("3_ball")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0.25)
+freeze = true

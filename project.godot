@@ -10,8 +10,8 @@ config_version=5
 
 [application]
 
-config/name="Godot Android XR Template"
-run/main_scene="uid://0hkayjoawtor"
+config/name="BowleramaXR"
+run/main_scene="res://game/practice.tscn"
 config/features=PackedStringArray("4.7", "Mobile")
 config/icon="res://icon.svg"
 

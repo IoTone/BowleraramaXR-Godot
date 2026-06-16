@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://clc5dre31iskm" path="res://addons/godot-xr-tools/xr/start_xr.tscn" id="1_startxr"]
 [ext_resource type="PackedScene" path="res://game/alley.tscn" id="2_alley"]
 [ext_resource type="PackedScene" uid="uid://b4ysuy43poobf" path="res://addons/godot-xr-tools/functions/function_pickup.tscn" id="3_pickup"]
+[ext_resource type="Script" uid="uid://d1qqfe28h5dug" path="res://game/practice.gd" id="4_practice"]
 
 [sub_resource type="SphereMesh" id="HandMesh"]
 radius = 0.03
@@ -15,6 +16,7 @@ emission = Color(0, 0.9, 1, 1)
 emission_energy_multiplier = 3.0
 
 [node name="Practice" type="Node3D" unique_id=929519837]
+script = ExtResource("4_practice")
 
 [node name="StartXR" parent="." unique_id=1329162622 instance=ExtResource("1_startxr")]
 
@@ -33,6 +35,7 @@ mesh = SubResource("HandMesh")
 surface_material_override/0 = SubResource("HandMat")
 
 [node name="FunctionPickup" parent="XROrigin3D/LeftController" unique_id=1389616809 instance=ExtResource("3_pickup")]
+impulse_factor = 1.6
 
 [node name="RightController" type="XRController3D" parent="XROrigin3D" unique_id=1190619480]
 tracker = &"right_hand"
@@ -42,3 +45,4 @@ mesh = SubResource("HandMesh")
 surface_material_override/0 = SubResource("HandMat")
 
 [node name="FunctionPickup" parent="XROrigin3D/RightController" unique_id=1455128245 instance=ExtResource("3_pickup")]
+impulse_factor = 1.6

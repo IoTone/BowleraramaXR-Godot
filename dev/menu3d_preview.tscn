@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://dev/screenshot.gd" id="1_shot"]
+[ext_resource type="PackedScene" path="res://fx/synth_backdrop.tscn" id="2_back"]
+[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d.tscn" id="3_vp"]
+[ext_resource type="PackedScene" path="res://game/menu/menu_ui.tscn" id="4_ui"]
+
+[node name="Menu3DPreview" type="Node3D"]
+script = ExtResource("1_shot")
+shot_path = "res://dev/menu3d.png"
+wait_frames = 60
+use_aim = true
+aim_from = Vector3(0, 1.4, 0.2)
+aim_at = Vector3(0, 1.4, -1.4)
+
+[node name="SynthBackdrop" parent="." instance=ExtResource("2_back")]
+
+[node name="MenuPanel" parent="." instance=ExtResource("3_vp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, -1.4)
+screen_size = Vector2(1.2, 0.96)
+scene = ExtResource("4_ui")
+viewport_size = Vector2(600, 480)
+
+[node name="Camera3D" type="Camera3D" parent="."]

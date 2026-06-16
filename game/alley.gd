@@ -9,18 +9,37 @@ const SETTLE_SPEED := 0.25
 ## Seconds the ball must stay stopped before it returns.
 const SETTLE_TIME := 0.8
 ## Past this z (near the back wall) the ball returns immediately.
-const BACK_Z := -6.8
+const BACK_Z := -7.0
+## Minimum ball speed (m/s) for an impact sound.
+const BALL_SFX_MIN_SPEED := 0.8
 
 @onready var ball: RigidBody3D = $Ball
 @onready var cradle: Marker3D = $BallCradle
 
 var _held := false
 var _settle := 0.0
+var _last_ball_sfx_ms := 0
 
 func _ready() -> void:
 	ball.picked_up.connect(_on_picked_up)
 	ball.dropped.connect(_on_dropped)
+	ball.body_entered.connect(_on_ball_body_entered)
 	_park_ball()
+
+func _on_ball_body_entered(body: Node) -> void:
+	if _held or ball.freeze:
+		return
+	var speed := ball.linear_velocity.length()
+	if speed < BALL_SFX_MIN_SPEED:
+		return
+	var now := Time.get_ticks_msec()
+	if now - _last_ball_sfx_ms < 60:
+		return
+	_last_ball_sfx_ms = now
+	if body is BowlPin:
+		Sfx.play("ball_hit", ball.global_position, speed / 4.0)
+	else:
+		Sfx.play("ball_touch", ball.global_position, speed / 5.0)
 
 func _on_picked_up(_p) -> void:
 	_held = true

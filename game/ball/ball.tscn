@@ -1,9 +1,13 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://addons/godot-xr-tools/objects/pickable.gd" id="1_pick"]
 
 [sub_resource type="SphereShape3D" id="Sphere_col"]
 radius = 0.108
+
+[sub_resource type="PhysicsMaterial" id="Phys_ball"]
+friction = 0.12
+bounce = 0.05
 
 [sub_resource type="SphereMesh" id="Sphere_mesh"]
 radius = 0.108
@@ -26,6 +30,7 @@ collision_layer = 4
 collision_mask = 196615
 contact_monitor = true
 max_contacts_reported = 8
+physics_material_override = SubResource("Phys_ball")
 freeze_mode = 1
 script = ExtResource("1_pick")
 release_mode = 0

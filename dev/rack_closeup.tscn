@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://dev/screenshot.gd" id="1_shot"]
+[ext_resource type="PackedScene" path="res://game/alley.tscn" id="2_alley"]
+
+[node name="RackCloseup" type="Node3D"]
+script = ExtResource("1_shot")
+shot_path = "res://dev/rack_closeup.png"
+use_aim = true
+aim_from = Vector3(0.4, 0.5, -5.35)
+aim_at = Vector3(0, 0.35, -6.2)
+
+[node name="Alley" parent="." instance=ExtResource("2_alley")]
+
+[node name="Camera3D" type="Camera3D" parent="."]

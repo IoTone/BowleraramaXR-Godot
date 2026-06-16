@@ -1,9 +1,10 @@
-[gd_scene load_steps=23 format=3]
+[gd_scene load_steps=25 format=3]
 
 [ext_resource type="Shader" path="res://fx/shaders/synth_sky.gdshader" id="1_sky"]
 [ext_resource type="Shader" path="res://fx/shaders/synth_grid.gdshader" id="2_grid"]
 [ext_resource type="PackedScene" path="res://game/ball/ball.tscn" id="3_ball"]
 [ext_resource type="Script" path="res://game/alley.gd" id="4_alley"]
+[ext_resource type="Script" path="res://game/pin_rack.gd" id="5_rack"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_sky"]
 shader = ExtResource("1_sky")
@@ -41,6 +42,9 @@ roughness = 0.15
 
 [sub_resource type="BoxShape3D" id="BoxShape_lane"]
 size = Vector3(1.1, 0.1, 7)
+
+[sub_resource type="PhysicsMaterial" id="Phys_lane"]
+friction = 0.2
 
 [sub_resource type="BoxShape3D" id="BoxShape_bumper"]
 size = Vector3(0.05, 0.4, 7)
@@ -103,6 +107,7 @@ surface_material_override/0 = SubResource("Mat_lane")
 
 [node name="LaneBody" type="StaticBody3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.05, -3.5)
+physics_material_override = SubResource("Phys_lane")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="LaneBody"]
 shape = SubResource("BoxShape_lane")
@@ -151,3 +156,6 @@ surface_material_override/0 = SubResource("Mat_holder")
 [node name="Ball" parent="." instance=ExtResource("3_ball")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0.25)
 freeze = true
+
+[node name="PinRack" type="Node3D" parent="."]
+script = ExtResource("5_rack")

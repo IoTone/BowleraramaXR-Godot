@@ -264,6 +264,8 @@ func _property_get_revert(property : StringName): # Variant
 			return false
 		"filter":
 			return true
+	# Godot 4.7 requires all code paths to return.
+	return null
 
 
 # When the scene_node changes, update the property list

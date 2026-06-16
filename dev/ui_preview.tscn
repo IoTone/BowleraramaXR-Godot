@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://dev/screenshot2d.gd" id="1_shot"]
+[ext_resource type="PackedScene" path="res://game/menu/menu_ui.tscn" id="2_ui"]
+
+[node name="UIPreview" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="MenuUI" parent="." instance=ExtResource("2_ui")]
+
+[node name="Shot" type="Node" parent="."]
+script = ExtResource("1_shot")
+win_size = Vector2i(600, 480)

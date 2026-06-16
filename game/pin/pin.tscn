@@ -31,10 +31,10 @@ emission_energy_multiplier = 5.0
 [node name="Pin" type="RigidBody3D"]
 collision_layer = 1
 collision_mask = 5
-mass = 1.0
+mass = 0.85
 physics_material_override = SubResource("Phys_pin")
 center_of_mass_mode = 1
-center_of_mass = Vector3(0, 0.16, 0)
+center_of_mass = Vector3(0, 0.2, 0)
 contact_monitor = true
 max_contacts_reported = 4
 script = ExtResource("1_pin")

@@ -4,6 +4,9 @@
 [ext_resource type="PackedScene" path="res://game/alley.tscn" id="2_alley"]
 [ext_resource type="PackedScene" uid="uid://b4ysuy43poobf" path="res://addons/godot-xr-tools/functions/function_pickup.tscn" id="3_pickup"]
 [ext_resource type="Script" uid="uid://d1qqfe28h5dug" path="res://game/practice.gd" id="4_practice"]
+[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/player/poke/poke.tscn" id="5_poke"]
+[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d.tscn" id="6_vp"]
+[ext_resource type="PackedScene" path="res://game/menu/pause_ui.tscn" id="7_pause"]
 
 [sub_resource type="SphereMesh" id="HandMesh"]
 radius = 0.03
@@ -15,34 +18,56 @@ emission_enabled = true
 emission = Color(0, 0.9, 1, 1)
 emission_energy_multiplier = 3.0
 
-[node name="Practice" type="Node3D" unique_id=929519837]
+[node name="Practice" type="Node3D"]
 script = ExtResource("4_practice")
 
-[node name="StartXR" parent="." unique_id=1329162622 instance=ExtResource("1_startxr")]
+[node name="StartXR" parent="." instance=ExtResource("1_startxr")]
 
-[node name="Alley" parent="." unique_id=908566543 instance=ExtResource("2_alley")]
+[node name="Alley" parent="." instance=ExtResource("2_alley")]
 
-[node name="XROrigin3D" type="XROrigin3D" parent="." unique_id=1818245032]
+[node name="XROrigin3D" type="XROrigin3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.6)
 
-[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D" unique_id=413949715]
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
 
-[node name="LeftController" type="XRController3D" parent="XROrigin3D" unique_id=370186280]
+[node name="LeftController" type="XRController3D" parent="XROrigin3D"]
 tracker = &"left_hand"
 
-[node name="HandMesh" type="MeshInstance3D" parent="XROrigin3D/LeftController" unique_id=1504278615]
+[node name="HandMesh" type="MeshInstance3D" parent="XROrigin3D/LeftController"]
 mesh = SubResource("HandMesh")
 surface_material_override/0 = SubResource("HandMat")
 
-[node name="FunctionPickup" parent="XROrigin3D/LeftController" unique_id=1389616809 instance=ExtResource("3_pickup")]
+[node name="FunctionPickup" parent="XROrigin3D/LeftController" instance=ExtResource("3_pickup")]
 impulse_factor = 1.6
 
-[node name="RightController" type="XRController3D" parent="XROrigin3D" unique_id=1190619480]
+[node name="Poke" parent="XROrigin3D/LeftController" instance=ExtResource("5_poke")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.005, -0.07)
+radius = 0.012
+push_bodies = false
+layer = 8388608
+mask = 4194304
+
+[node name="RightController" type="XRController3D" parent="XROrigin3D"]
 tracker = &"right_hand"
 
-[node name="HandMesh" type="MeshInstance3D" parent="XROrigin3D/RightController" unique_id=1565943444]
+[node name="HandMesh" type="MeshInstance3D" parent="XROrigin3D/RightController"]
 mesh = SubResource("HandMesh")
 surface_material_override/0 = SubResource("HandMat")
 
-[node name="FunctionPickup" parent="XROrigin3D/RightController" unique_id=1455128245 instance=ExtResource("3_pickup")]
+[node name="FunctionPickup" parent="XROrigin3D/RightController" instance=ExtResource("3_pickup")]
 impulse_factor = 1.6
+
+[node name="Poke" parent="XROrigin3D/RightController" instance=ExtResource("5_poke")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.005, -0.07)
+radius = 0.012
+push_bodies = false
+layer = 8388608
+mask = 4194304
+
+[node name="PausePanel" parent="." instance=ExtResource("6_vp")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 1.15, -0.55)
+visible = false
+enabled = false
+screen_size = Vector2(0.4, 0.28)
+scene = ExtResource("7_pause")
+viewport_size = Vector2(400, 280)

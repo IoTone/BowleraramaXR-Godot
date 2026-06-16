@@ -23,12 +23,10 @@ func _ready() -> void:
 func _physics_process(_delta: float) -> void:
 	frame += 1
 	max_down = max(max_down, rack.down_count())
-	if frame % 30 == 0:
-		var p := ball.global_position
-		var pin1 := rack.get_child(0) as Node3D
-		var pp := pin1.global_position
-		var updot := pin1.global_transform.basis.y.normalized().dot(Vector3.UP)
-		print("F%03d ball z=%.2f vz=%.2f | pin1 z=%.3f y=%.3f up=%.2f frozen=%s sleep=%s down=%d" % [frame, p.z, ball.linear_velocity.z, pp.z, pp.y, updot, str(pin1.freeze), str(pin1.sleeping), rack.down_count()])
-	if frame >= 200:
-		print("PINS_TEST_DONE max_down=%d/10 final=%d" % [max_down, rack.down_count()])
+	# Once the ball has parked, the alley should have swept the fallen pins.
+	if frame > 30 and ball.freeze:
+		print("PINS_TEST_DONE max_down=%d/10 remaining_pins=%d (max_down+remaining should=10)" % [max_down, rack.get_child_count()])
+		get_tree().quit()
+	if frame >= 300:
+		print("TIMEOUT max_down=%d remaining=%d frozen=%s" % [max_down, rack.get_child_count(), str(ball.freeze)])
 		get_tree().quit()

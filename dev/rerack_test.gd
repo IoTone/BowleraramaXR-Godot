@@ -16,7 +16,8 @@ func _ready() -> void:
 	await get_tree().physics_frame
 	for p in rack.get_children():
 		(p as BowlPin).is_down = true
-	print("forced all 10 down; waiting for re-rack (2.5s)...")
+	rack.clear_fallen()
+	print("forced all 10 down + clear_fallen; waiting for re-rack...")
 
 func _process(delta: float) -> void:
 	t += delta

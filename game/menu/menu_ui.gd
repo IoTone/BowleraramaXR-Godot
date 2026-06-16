@@ -63,6 +63,8 @@ func _button(text: String, cb: Callable) -> Button:
 	b.text = text
 	b.custom_minimum_size = Vector2(320, 60)
 	b.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	# Fire on press, not release — robust for poke/pointer in XR.
+	b.action_mode = BaseButton.ACTION_MODE_BUTTON_PRESS
 	b.add_theme_font_size_override("font_size", 32)
 	b.add_theme_color_override("font_color", CYAN)
 	b.add_theme_color_override("font_hover_color", WHITE)
@@ -71,7 +73,10 @@ func _button(text: String, cb: Callable) -> Button:
 	b.add_theme_stylebox_override("hover", _box(Color(0.30, 0.0, 0.40, 0.9), MAGENTA))
 	b.add_theme_stylebox_override("pressed", _box(Color(0.5, 0.0, 0.5, 0.95), WHITE))
 	b.add_theme_stylebox_override("focus", _box(Color(0, 0, 0, 0), MAGENTA))
-	b.pressed.connect(cb)
+	b.mouse_entered.connect(func() -> void: Sfx.play_2d("ui", -13.0, 1.4))
+	b.pressed.connect(func() -> void:
+		Sfx.play_2d("ui", -3.0, 1.0)
+		cb.call())
 	return b
 
 func _box(bg: Color, border: Color) -> StyleBoxFlat:

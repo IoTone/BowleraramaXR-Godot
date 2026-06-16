@@ -7,13 +7,14 @@ extends RigidBody3D
 ## Standard pin number (1-10), shown on the floating label.
 @export var pin_number: int = 1
 
-## Tilt past this (dot of up-vector with world up) counts as knocked down.
-## ~0.8 ≈ 37° of lean.
-const DOWN_DOT := 0.8
-## Horizontal distance (m) off its spot that also counts as knocked down.
-const DOWN_DISP := 0.12
-## Minimum impact speed (m/s) to trigger a clack.
-const SFX_MIN_SPEED := 0.6
+## Tilt past this (dot of up-vector with world up) counts as a real fall.
+## ~0.6 ≈ 53° of lean — a clear topple, not a wobble from a tap.
+const DOWN_DOT := 0.6
+## Horizontal distance (m) off its spot that also counts as knocked out — large
+## enough that a light tap which leaves the pin standing does NOT count.
+const DOWN_DISP := 0.25
+## Minimum impact speed (m/s) to trigger a clack (low, so light taps still tick).
+const SFX_MIN_SPEED := 0.3
 
 static var _shared_mesh: ArrayMesh
 

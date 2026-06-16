@@ -12,6 +12,8 @@ func _ready() -> void:
 	_bank["ball_touch"] = _make_impact(115.0, 20.0, 0.35, 0.18, 0.2)   # ball meets lane
 	_bank["ball_hit"]   = _make_impact(170.0, 14.0, 0.5, 0.16, 0.5)    # ball strikes pin
 	_bank["pin_hit"]    = _make_impact(320.0, 24.0, 0.4, 0.13, 0.9)    # pin clacks pin/lane
+	_bank["grab"]       = _make_impact(80.0, 26.0, 0.5, 0.10, 0.15)    # grabbing the ball
+	_bank["ui"]         = _make_impact(680.0, 24.0, 0.05, 0.09, 0.5)   # menu blip
 
 ## Play a one-shot at a world position. impact (0..1+) scales volume & pitch.
 func play(sound: String, pos: Vector3, impact: float = 1.0) -> void:
@@ -29,6 +31,20 @@ func play(sound: String, pos: Vector3, impact: float = 1.0) -> void:
 		return
 	root.add_child(p)
 	p.global_position = pos
+	p.finished.connect(p.queue_free)
+	p.play()
+
+## Play a non-positional one-shot (for UI feedback). Persists on the Sfx node so
+## it isn't tied to the current scene / sub-viewport.
+func play_2d(sound: String, volume_db: float = -6.0, pitch: float = 1.0) -> void:
+	var stream: AudioStreamWAV = _bank.get(sound)
+	if stream == null:
+		return
+	var p := AudioStreamPlayer.new()
+	p.stream = stream
+	p.volume_db = volume_db
+	p.pitch_scale = pitch
+	add_child(p)
 	p.finished.connect(p.queue_free)
 	p.play()
 

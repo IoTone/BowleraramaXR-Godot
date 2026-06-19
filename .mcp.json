@@ -1,0 +1,14 @@
+{
+  "mcpServers": {
+    "godot": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "@coding-solo/godot-mcp"
+      ],
+      "env": {
+        "GODOT_PATH": "C:\\Users\\trued\\dev\\tools\\godot.windows.editor.x86_64\\godot.windows.editor.x86_64.exe"
+      }
+    }
+  }
+}

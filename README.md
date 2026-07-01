@@ -65,14 +65,23 @@ XR requires a **custom Gradle build** so the OpenXR vendor libraries (Meta /
 Android XR) and the GDExtension plugin can be packaged into the APK. The stock,
 non-Gradle export path will *not* include them.
 
+**Where do the Android sources come from?** You do **not** download them
+separately. The Android build template (`android_source.zip`) is bundled *inside*
+the export templates you installed in step 2. Godot just needs you to unpack that
+bundled copy into your project:
+
 1. **Project → Install Android Build Template…**
-2. This unpacks `android_source.zip` into `res://android/build` in your project.
-   You should see an `android/` folder appear next to `game/`, `addons/`, etc.
+2. This unpacks the bundled `android_source.zip` into `res://android/build` in
+   your project. You should see an `android/` folder appear next to `game/`,
+   `addons/`, etc. This folder is the Gradle project Godot compiles on export —
+   it is generated, so you normally don't edit or commit it.
 3. In **Project → Export… → Android**, make sure **Gradle Build → Use Gradle
    Build** is enabled (this template's presets already have it on).
 
-> If you re-download the export templates, re-run *Install Android Build
-> Template* so `res://android/build` matches the new version.
+> The template version is tied to your editor: if you update Godot or
+> re-download the export templates, delete `res://android/build` and re-run
+> *Install Android Build Template* so the sources match the new version.
+> A stale build template is a common cause of confusing Gradle errors.
 
 ### 4. Android SDK / JDK prerequisites
 
@@ -109,17 +118,66 @@ the preset you want.
 > only exists on Google Android XR devices — the Quest uses the Meta runtime.
 > Switch the Runnable preset back to `Meta Quest`.
 
-### 6. Deploy to the headset
+### 6. Put the Meta Quest into Developer Mode
 
-1. Enable **Developer Mode** on the device and connect it over USB.
-2. Accept the **"Allow USB debugging"** prompt *inside the headset* — otherwise
-   the device shows as `unauthorized` and will not appear in Remote Deploy.
-3. Confirm the device is visible:
+Before a Quest will accept a sideloaded build, you have to enable Developer Mode.
+This is a **one-time setup** done from your phone, not the headset itself.
+
+1. **Create a Meta developer account / organization.** Sign in at the
+   [Meta Horizon developer dashboard](https://developers.meta.com/horizon/) with
+   the same Meta account your headset uses, and create an *organization* (any
+   name). Meta requires the account to be **verified** before Developer Mode can
+   be turned on — this means enabling **two-factor authentication** on the
+   account (older docs may mention adding a payment method; 2FA is what's
+   enforced today).
+2. **Install the Meta Horizon app** on your phone (iOS/Android) — this is the
+   former "Meta Quest" / "Oculus" app — and **pair it with your headset** (the
+   headset must be on the same account).
+3. In the app: **Menu → Devices → select your headset → Headset settings →
+   Developer Mode**, and toggle it **on**.
+4. **Reboot the headset** (hold power → Restart) so the change takes effect.
+
+### 7. Install the Windows USB (ADB) driver
+
+On Windows the Quest needs Meta's USB driver before `adb` can see it (macOS and
+Linux do not need this):
+
+1. Download and unzip the **Oculus ADB Drivers** from the
+   [Meta developer downloads](https://developers.meta.com/horizon/downloads/package/oculus-adb-drivers/).
+2. Right-click `android_winusb.inf` → **Install**.
+
+> Prefer a GUI? [**Meta Quest Developer Hub (MQDH)**](https://developers.meta.com/horizon/documentation/unity/ts-odh/)
+> is Meta's optional desktop app for Windows/macOS. It bundles ADB, installs the
+> USB driver for you, and gives you device management, file transfer, and screen
+> casting. It's not required — Godot's Remote Deploy works with plain ADB — but
+> it's the easiest way to confirm the headset connects.
+
+### 8. Deploy to the headset
+
+1. Connect the headset to the PC over **USB** (a data-capable cable — some cables
+   are charge-only).
+2. **Put on the headset** and accept the **"Allow USB debugging"** prompt. Tick
+   *"Always allow from this computer"* so you aren't re-prompted every session.
+   Until you accept this, the device shows as `unauthorized` and will not appear
+   in Remote Deploy.
+3. From a terminal, confirm the headset is visible and authorized:
    ```
    adb devices
    ```
-4. In Godot, use the **Remote Deploy** button (top-right, the little Android
-   icon) to build and install the runnable preset onto the device.
+   You want a line ending in `device` (not `unauthorized` or `no permissions`).
+4. Back in Godot, confirm **`Meta Quest`** is the Runnable preset (see step 5),
+   then click the **Remote Deploy** button — the little Android/OpenXR icon in
+   the top-right toolbar — to build and install onto the headset.
+5. The app installs under **App Library → Unknown Sources** on the Quest.
+
+> **Troubleshooting**
+> - *No devices / `unauthorized`* → re-check the USB-debugging prompt inside the
+>   headset, replug the cable, and run `adb kill-server && adb devices`.
+> - *`INSTALL_FAILED_MISSING_SHARED_LIBRARY ... libopenxr.google.so`* → you
+>   deployed the `Android XR` preset to a Quest; switch the Runnable preset back
+>   to `Meta Quest` (step 5).
+> - *Build succeeds but nothing appears* → look under *Unknown Sources*, not the
+>   main library grid.
 
 ## Viewing the experience with scrcpy
 

@@ -21,6 +21,7 @@ XRToolsUserSettings="*uid://bqgb8i74tm0t"
 XRToolsRumbleManager="*uid://by853dk86g1qw"
 Sfx="*res://audio/sfx.gd"
 Music="*res://audio/music_director.gd"
+SceneLoader="*res://game/scene_loader.gd"
 
 [editor_plugins]
 

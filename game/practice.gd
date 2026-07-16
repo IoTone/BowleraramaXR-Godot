@@ -1,5 +1,6 @@
 # Practice scene controller.
-#   Left-hand PINCH ....... toggle the pop-up menu (poke its buttons to use them)
+#   Left-hand PINCH ....... toggle the pop-up menu
+#   Right-hand point + trigger ... click the menu buttons (laser pointer)
 #   A / X button .......... recenter at the foul line  (controller fallback)
 #   B / Y button / menu ... return to the main menu    (controller fallback)
 extends Node3D
@@ -7,6 +8,12 @@ extends Node3D
 const MENU_SCENE := "res://game/menu/main_menu.tscn"
 
 @onready var pause_panel: XRToolsViewport2DIn3D = $PausePanel
+@onready var _camera: XRCamera3D = $XROrigin3D/XRCamera3D
+# The laser pointer used to click the pop-up menu. Only enabled while the menu is
+# up, so it doesn't clutter the lane or fight with grabbing the ball. Right hand
+# only: the left trigger is the summon/dismiss gesture, so binding the pointer's
+# click to it too would dismiss the menu the moment you tried to click.
+@onready var _pointer: Node = get_node_or_null("XROrigin3D/RightController/FunctionPointer")
 
 func _ready() -> void:
 	var left := get_node_or_null("XROrigin3D/LeftController") as XRController3D
@@ -31,11 +38,19 @@ func _on_other_button(button_name: String) -> void:
 		"ax_button":
 			_recenter()
 		"by_button", "menu_button":
-			get_tree().change_scene_to_file(MENU_SCENE)
+			SceneLoader.go(MENU_SCENE)
 
 func _show_menu(show: bool) -> void:
+	if show:
+		# Park the panel in front of the player, facing them, wherever they're
+		# looking when they summon it — so it's readable and within pointer range
+		# rather than pinned to some fixed spot they may have turned away from.
+		pause_panel.global_transform = XRAnchorInView.compute_pose(
+			_camera.global_transform, 1.0, -0.1)
 	pause_panel.visible = show
 	pause_panel.enabled = show
+	if _pointer:
+		_pointer.enabled = show
 
 # Snap the XR tracking origin so the player stands at the foul line facing the
 # lane, wherever their physical tracking origin happens to be.

@@ -383,6 +383,11 @@ func _property_get_revert(property : StringName): # Variant
 	if property == "player_material":
 		return _DefaultMaterial
 
+	# Godot 4.7 rejects a function that can fall off the end without returning
+	# ("Not all code paths return a value"), which made this whole script fail
+	# to parse. Local patch to vendored XR Tools; drop it if the addon is updated.
+	return null
+
 
 # Set enabled property
 func set_enabled(new_value : bool) -> void:

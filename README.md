@@ -33,6 +33,16 @@ for more information.
 Getting an Android XR / Meta Quest project to actually build is the part that
 is poorly documented. Here is the full, tested sequence.
 
+> **Upstream reference:** Godot's own
+> [Deploying to Android](https://docs.godotengine.org/en/stable/tutorials/xr/deploying_to_android.html)
+> tutorial is the canonical source for steps 1–4. The notes below are the
+> Quest-specific version of it, plus the parts that tripped us up.
+
+**On a fresh clone, steps 3 and 4 are the ones people miss.** The Android build
+template is *not* in this repo (it is generated per-editor-version), so a clone
+that has never run *Install Android Build Template* will fail to export. The
+OpenXR vendors plugin, by contrast, **is** committed here — see step 4.
+
 ### 1. Install Godot 4.7
 
 Android XR support and the OpenXR vendor plugins require **Godot 4.7 or newer**
@@ -83,7 +93,39 @@ bundled copy into your project:
 > *Install Android Build Template* so the sources match the new version.
 > A stale build template is a common cause of confusing Gradle errors.
 
-### 4. Android SDK / JDK prerequisites
+### 4. The OpenXR vendors plugin (already vendored — read this anyway)
+
+The per-vendor OpenXR loaders (`libopenxr_loader.so` for Meta, `libopenxr.google.so`
+for Android XR, …) do **not** ship with Godot. They come from the
+[**Godot OpenXR Vendors plugin**](https://github.com/GodotVR/godot_openxr_vendors),
+which is what adds the *Meta XR Features* / *Android XR Features* sections to the
+Android export preset and packages the right loader `.aar` into your APK.
+
+**It is already committed to this repo** at `addons/godotopenxrvendors/`
+(currently **v5.1.0**), Android `.aar` binaries included. A fresh clone therefore
+needs nothing — do not re-download it unless you are deliberately upgrading.
+
+Two things about it routinely waste people's time:
+
+- **There is no checkbox to tick.** It is a *GDExtension*
+  (`addons/godotopenxrvendors/plugin.gdextension`), **not** an EditorPlugin, so it
+  never appears under **Project → Project Settings → Plugins**. It loads
+  automatically when the editor starts. If you go hunting for it in the Plugins
+  tab and conclude it isn't installed, you'll be chasing a ghost.
+- **It only takes effect after an editor restart**, and only through the Gradle
+  build from step 3. If the export preset is missing its *Meta XR Features*
+  section, restart Godot before assuming anything is broken.
+
+To verify it is live: open **Project → Export… → Meta Quest** and confirm the
+preset shows an **XR Features → Enable Meta Plugin** toggle. If it does, the
+plugin is loaded.
+
+To upgrade it later, grab the release from the
+[GitHub releases page](https://github.com/GodotVR/godot_openxr_vendors/releases)
+(or the Asset Library entry *"Godot OpenXR Vendors Plugin"*), replace
+`addons/godotopenxrvendors/` wholesale, and restart the editor.
+
+### 5. Android SDK / JDK prerequisites
 
 Godot drives the Gradle build using your local Android SDK and a JDK:
 
@@ -99,7 +141,7 @@ Then point Godot at them in **Editor → Editor Settings → Export → Android*
 - A **debug keystore** is generated automatically on first export; for release
   builds set your own.
 
-### 5. Choosing the deploy target (Meta Quest vs Android XR)
+### 6. Choosing the deploy target (Meta Quest vs Android XR)
 
 This project carries **two export presets**, identical except for which OpenXR
 vendor is bundled:
@@ -118,7 +160,21 @@ the preset you want.
 > only exists on Google Android XR devices — the Quest uses the Meta runtime.
 > Switch the Runnable preset back to `Meta Quest`.
 
-### 6. Put the Meta Quest into Developer Mode
+> **Android XR requires Min/Target SDK 34 — or the app hangs on the loading
+> spinner forever.** Per Google's
+> [Godot for Android XR setup guide](https://developer.android.com/develop/xr/godot/setup),
+> the Android XR preset must set **Gradle Build → Min SDK = 34** and
+> **Target SDK = 34** (this repo's `Android XR` preset already does). Leaving them
+> blank builds an app that installs and launches but whose OpenXR runtime never
+> initializes: an app targeting below 34 isn't treated as a first-class XR app,
+> so the loader can't reach the runtime broker, falls back to `dlopen`-ing
+> `libopenxr.google.so`, and is denied by the linker namespace
+> (`not accessible for the namespace`). The app then renders in 2D fallback and
+> the Android XR shell spins on its splash indefinitely. If you see that hang,
+> confirm the SDK levels first — `adb logcat | grep -i openxr` will show the
+> namespace error. Requires Godot ≥ 4.6.2 and OpenXR Vendors ≥ 5.1.
+
+### 7. Put the Meta Quest into Developer Mode
 
 Before a Quest will accept a sideloaded build, you have to enable Developer Mode.
 This is a **one-time setup** done from your phone, not the headset itself.
@@ -137,7 +193,7 @@ This is a **one-time setup** done from your phone, not the headset itself.
    Developer Mode**, and toggle it **on**.
 4. **Reboot the headset** (hold power → Restart) so the change takes effect.
 
-### 7. Install the Windows USB (ADB) driver
+### 8. Install the Windows USB (ADB) driver
 
 On Windows the Quest needs Meta's USB driver before `adb` can see it (macOS and
 Linux do not need this):
@@ -152,7 +208,7 @@ Linux do not need this):
 > casting. It's not required — Godot's Remote Deploy works with plain ADB — but
 > it's the easiest way to confirm the headset connects.
 
-### 8. Deploy to the headset
+### 9. Deploy to the headset
 
 1. Connect the headset to the PC over **USB** (a data-capable cable — some cables
    are charge-only).
@@ -165,7 +221,7 @@ Linux do not need this):
    adb devices
    ```
    You want a line ending in `device` (not `unauthorized` or `no permissions`).
-4. Back in Godot, confirm **`Meta Quest`** is the Runnable preset (see step 5),
+4. Back in Godot, confirm **`Meta Quest`** is the Runnable preset (see step 6),
    then click the **Remote Deploy** button — the little Android/OpenXR icon in
    the top-right toolbar — to build and install onto the headset.
 5. The app installs under **App Library → Unknown Sources** on the Quest.
@@ -175,7 +231,7 @@ Linux do not need this):
 >   headset, replug the cable, and run `adb kill-server && adb devices`.
 > - *`INSTALL_FAILED_MISSING_SHARED_LIBRARY ... libopenxr.google.so`* → you
 >   deployed the `Android XR` preset to a Quest; switch the Runnable preset back
->   to `Meta Quest` (step 5).
+>   to `Meta Quest` (step 6).
 > - *Build succeeds but nothing appears* → look under *Unknown Sources*, not the
 >   main library grid.
 

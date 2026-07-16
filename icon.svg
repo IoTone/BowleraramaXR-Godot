@@ -1,1 +1,110 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128"><rect width="124" height="124" x="2" y="2" fill="#363d52" stroke="#212532" stroke-width="4" rx="14"/><g fill="#fff" transform="translate(12.322 12.322)scale(.101)"><path d="M105 673v33q407 354 814 0v-33z"/><path fill="#478cbf" d="m105 673 152 14q12 1 15 14l4 67 132 10 8-61q2-11 15-15h162q13 4 15 15l8 61 132-10 4-67q3-13 15-14l152-14V427q30-39 56-81-35-59-83-108-43 20-82 47-40-37-88-64 7-51 8-102-59-28-123-42-26 43-46 89-49-7-98 0-20-46-46-89-64 14-123 42 1 51 8 102-48 27-88 64-39-27-82-47-48 49-83 108 26 42 56 81zm0 33v39c0 276 813 276 814 0v-39l-134 12-5 69q-2 10-14 13l-162 11q-12 0-16-11l-10-65H446l-10 65q-4 11-16 11l-162-11q-12-3-14-13l-5-69z"/><path d="M483 600c0 34 58 34 58 0v-86c0-34-58-34-58 0z"/><circle cx="725" cy="526" r="90"/><circle cx="299" cy="526" r="90"/></g><g fill="#414042" transform="translate(12.322 12.322)scale(.101)"><circle cx="307" cy="532" r="60"/><circle cx="717" cy="532" r="60"/></g></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="432" height="432" viewBox="0 0 432 432">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0.00" stop-color="#0d0420"/>
+      <stop offset="0.42" stop-color="#2d1155"/>
+      <stop offset="0.75" stop-color="#7d1f83"/>
+      <stop offset="1.00" stop-color="#ff4d9d"/>
+    </linearGradient>
+    <linearGradient id="sun" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0.00" stop-color="#ffe95c"/>
+      <stop offset="0.42" stop-color="#ff9a4d"/>
+      <stop offset="1.00" stop-color="#ff2d95"/>
+    </linearGradient>
+    <linearGradient id="ground" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0.00" stop-color="#3a0f52"/>
+      <stop offset="1.00" stop-color="#080213"/>
+    </linearGradient>
+    <radialGradient id="ballBody" cx="0.34" cy="0.28" r="0.88">
+      <stop offset="0.00" stop-color="#5b3488"/>
+      <stop offset="0.42" stop-color="#2a1450"/>
+      <stop offset="1.00" stop-color="#0b0518"/>
+    </radialGradient>
+    <linearGradient id="gloss" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0.00" stop-color="#ffffff" stop-opacity="0.90"/>
+      <stop offset="1.00" stop-color="#8be9ff" stop-opacity="0.00"/>
+    </linearGradient>
+    <clipPath id="skyClip">
+      <rect x="0" y="0" width="432" height="256"/>
+    </clipPath>
+    <clipPath id="groundClip">
+      <rect x="0" y="256" width="432" height="176"/>
+    </clipPath>
+    <clipPath id="sunClip">
+      <circle cx="216.0" cy="256" r="155"/>
+    </clipPath>
+    <clipPath id="ballClip">
+      <circle cx="216.0" cy="196" r="100"/>
+    </clipPath>
+  </defs>
+  <defs><clipPath id="roundClip"><rect x="0" y="0" width="432" height="432" rx="76"/></clipPath></defs>
+  <g clip-path="url(#roundClip)">
+  <rect x="0" y="0" width="432" height="432" fill="url(#sky)"/>
+  <g clip-path="url(#skyClip)">
+    <circle cx="216.0" cy="256" r="155" fill="url(#sun)"/>
+    <g clip-path="url(#sunClip)">
+      <rect x="61.0" y="170.1" width="310" height="3.4" fill="#1a0a2e" opacity="0.92"/>
+      <rect x="61.0" y="177.3" width="310" height="4.8" fill="#1a0a2e" opacity="0.92"/>
+      <rect x="61.0" y="186.7" width="310" height="6.1" fill="#1a0a2e" opacity="0.92"/>
+      <rect x="61.0" y="197.9" width="310" height="7.5" fill="#1a0a2e" opacity="0.92"/>
+      <rect x="61.0" y="210.5" width="310" height="8.9" fill="#1a0a2e" opacity="0.92"/>
+      <rect x="61.0" y="224.5" width="310" height="10.2" fill="#1a0a2e" opacity="0.92"/>
+      <rect x="61.0" y="239.7" width="310" height="11.6" fill="#1a0a2e" opacity="0.92"/>
+      <rect x="61.0" y="256.0" width="310" height="13.0" fill="#1a0a2e" opacity="0.92"/>
+    </g>
+  </g>
+  <rect x="0" y="254" width="432" height="4" fill="#ff5ec4" opacity="0.95"/>
+  <rect x="0" y="256" width="432" height="176" fill="url(#ground)"/>
+  <g clip-path="url(#groundClip)" fill="none" stroke-width="2">
+    <line x1="216.0" y1="256" x2="-464" y2="432" stroke="#00e5ff" stroke-opacity="0.55"/>
+    <line x1="216.0" y1="256" x2="-396" y2="432" stroke="#00e5ff" stroke-opacity="0.55"/>
+    <line x1="216.0" y1="256" x2="-328" y2="432" stroke="#00e5ff" stroke-opacity="0.55"/>
+    <line x1="216.0" y1="256" x2="-260" y2="432" stroke="#00e5ff" stroke-opacity="0.55"/>
+    <line x1="216.0" y1="256" x2="-192" y2="432" stroke="#00e5ff" stroke-opacity="0.55"/>
+    <line x1="216.0" y1="256" x2="-124" y2="432" stroke="#00e5ff" stroke-opacity="0.55"/>
+    <line x1="216.0" y1="256" x2="-56" y2="432" stroke="#00e5ff" stroke-opacity="0.55"/>
+    <line x1="216.0" y1="256" x2="12" y2="432" stroke="#00e5ff" stroke-opacity="0.55"/>
+    <line x1="216.0" y1="256" x2="80" y2="432" stroke="#00e5ff" stroke-opacity="0.55"/>
+    <line x1="216.0" y1="256" x2="148" y2="432" stroke="#00e5ff" stroke-opacity="0.55"/>
+    <line x1="216.0" y1="256" x2="216" y2="432" stroke="#00e5ff" stroke-opacity="0.55"/>
+    <line x1="216.0" y1="256" x2="284" y2="432" stroke="#00e5ff" stroke-opacity="0.55"/>
+    <line x1="216.0" y1="256" x2="352" y2="432" stroke="#00e5ff" stroke-opacity="0.55"/>
+    <line x1="216.0" y1="256" x2="420" y2="432" stroke="#00e5ff" stroke-opacity="0.55"/>
+    <line x1="216.0" y1="256" x2="488" y2="432" stroke="#00e5ff" stroke-opacity="0.55"/>
+    <line x1="216.0" y1="256" x2="556" y2="432" stroke="#00e5ff" stroke-opacity="0.55"/>
+    <line x1="216.0" y1="256" x2="624" y2="432" stroke="#00e5ff" stroke-opacity="0.55"/>
+    <line x1="216.0" y1="256" x2="692" y2="432" stroke="#00e5ff" stroke-opacity="0.55"/>
+    <line x1="216.0" y1="256" x2="760" y2="432" stroke="#00e5ff" stroke-opacity="0.55"/>
+    <line x1="216.0" y1="256" x2="828" y2="432" stroke="#00e5ff" stroke-opacity="0.55"/>
+    <line x1="216.0" y1="256" x2="896" y2="432" stroke="#00e5ff" stroke-opacity="0.55"/>
+    <line x1="0" y1="261.0" x2="432" y2="261.0" stroke="#ff2d95" stroke-opacity="0.5"/>
+    <line x1="0" y1="268.2" x2="432" y2="268.2" stroke="#ff2d95" stroke-opacity="0.5"/>
+    <line x1="0" y1="278.8" x2="432" y2="278.8" stroke="#ff2d95" stroke-opacity="0.5"/>
+    <line x1="0" y1="294.0" x2="432" y2="294.0" stroke="#ff2d95" stroke-opacity="0.5"/>
+    <line x1="0" y1="316.1" x2="432" y2="316.1" stroke="#ff2d95" stroke-opacity="0.5"/>
+    <line x1="0" y1="348.2" x2="432" y2="348.2" stroke="#ff2d95" stroke-opacity="0.5"/>
+    <line x1="0" y1="394.6" x2="432" y2="394.6" stroke="#ff2d95" stroke-opacity="0.5"/>
+  </g>
+  <circle cx="216.0" cy="196" r="111" fill="#ff2d95" opacity="0.28"/>
+  <circle cx="216.0" cy="196" r="105" fill="#00e5ff" opacity="0.22"/>
+  <circle cx="216.0" cy="196" r="100" fill="url(#ballBody)"/>
+  <g clip-path="url(#ballClip)">
+    <circle cx="239.0" cy="173" r="98" fill="none" stroke="#ff4dae" stroke-width="8" opacity="0.8"/>
+    <circle cx="195.0" cy="217" r="97" fill="none" stroke="#00e5ff" stroke-width="9" opacity="0.85"/>
+  </g>
+  <circle cx="216.0" cy="196" r="100" fill="none" stroke="#07030f" stroke-width="6"/>
+  <ellipse cx="178.0" cy="151" rx="29" ry="19" fill="url(#gloss)" transform="rotate(-28 178.0 151)"/>
+  <g transform="rotate(-18 190.0 192)">
+    <ellipse cx="190.0" cy="192" rx="15" ry="13" fill="#05020b" stroke="#00e5ff" stroke-width="2.5" stroke-opacity="0.6"/>
+    <ellipse cx="188.0" cy="190" rx="10" ry="8" fill="#241046" opacity="0.85"/>
+  </g>
+  <g transform="rotate(-18 221.0 181)">
+    <ellipse cx="221.0" cy="181" rx="14" ry="12" fill="#05020b" stroke="#00e5ff" stroke-width="2.5" stroke-opacity="0.6"/>
+    <ellipse cx="219.0" cy="179" rx="9" ry="7" fill="#241046" opacity="0.85"/>
+  </g>
+  <g transform="rotate(-18 228.0 216)">
+    <ellipse cx="228.0" cy="216" rx="13" ry="11" fill="#05020b" stroke="#00e5ff" stroke-width="2.5" stroke-opacity="0.6"/>
+    <ellipse cx="226.0" cy="214" rx="8" ry="6" fill="#241046" opacity="0.85"/>
+  </g>
+  </g>
+</svg>

@@ -68,7 +68,9 @@ func _ready() -> void:
 
 	var gen := AudioStreamGenerator.new()
 	gen.mix_rate = RATE
-	gen.buffer_length = 0.25
+	# A little extra headroom so a brief main-thread hitch (e.g. instantiating a
+	# scene during a SceneLoader swap) doesn't underrun and cut the track.
+	gen.buffer_length = 0.5
 	_player = AudioStreamPlayer.new()
 	_player.stream = gen
 	_player.volume_db = MASTER_DB

@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bjcxf427un2wp" path="res://addons/godot-xr-tools/player/poke/poke.tscn" id="5_poke"]
 [ext_resource type="PackedScene" uid="uid://clujaf3u776a3" path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d.tscn" id="6_vp"]
 [ext_resource type="PackedScene" path="res://game/menu/pause_ui.tscn" id="7_pause"]
+[ext_resource type="PackedScene" uid="uid://cqhw276realc" path="res://addons/godot-xr-tools/functions/function_pointer.tscn" id="8_ptr"]
 
 [sub_resource type="SphereMesh" id="HandMesh"]
 radius = 0.03
@@ -64,10 +65,13 @@ layer = 8388608
 mask = 4194304
 push_bodies = false
 
+[node name="FunctionPointer" parent="XROrigin3D/RightController" unique_id=360683832 instance=ExtResource("8_ptr")]
+enabled = false
+
 [node name="PausePanel" parent="." unique_id=518435655 instance=ExtResource("6_vp")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 1.15, -0.55)
 visible = false
-screen_size = Vector2(0.4, 0.28)
+screen_size = Vector2(0.6, 0.42)
 enabled = false
 scene = ExtResource("7_pause")
 viewport_size = Vector2(400, 280)

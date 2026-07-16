@@ -111,7 +111,22 @@ func _build_about() -> Panel:
 	return p
 
 func _on_practice() -> void:
-	get_tree().change_scene_to_file(PRACTICE_SCENE)
+	# Load in the background so the menu keeps rendering and the music keeps
+	# playing instead of freezing mid-transition (see SceneLoader).
+	_show_loading()
+	SceneLoader.go(PRACTICE_SCENE)
+
+func _show_loading() -> void:
+	var o := ColorRect.new()
+	o.color = Color(0.04, 0.0, 0.10, 0.96)
+	o.set_anchors_preset(Control.PRESET_FULL_RECT)
+	# Swallow further clicks while the next scene loads.
+	o.mouse_filter = Control.MOUSE_FILTER_STOP
+	add_child(o)
+	var l := _label("LOADING…", 44, CYAN)
+	l.set_anchors_preset(Control.PRESET_FULL_RECT)
+	l.vertical_alignment = VERTICAL_ALIGNMENT_CENTER
+	o.add_child(l)
 
 func _on_about() -> void:
 	_about.visible = true

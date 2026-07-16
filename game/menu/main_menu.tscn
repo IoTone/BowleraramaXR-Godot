@@ -1,43 +1,53 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene format=3 uid="uid://c1cg0o4qrmfv6"]
 
-[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/xr/start_xr.tscn" id="1_startxr"]
+[ext_resource type="PackedScene" uid="uid://clc5dre31iskm" path="res://addons/godot-xr-tools/xr/start_xr.tscn" id="1_startxr"]
 [ext_resource type="PackedScene" path="res://fx/synth_backdrop.tscn" id="2_back"]
-[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d.tscn" id="3_vp"]
+[ext_resource type="PackedScene" uid="uid://clujaf3u776a3" path="res://addons/godot-xr-tools/objects/viewport_2d_in_3d.tscn" id="3_vp"]
 [ext_resource type="PackedScene" path="res://game/menu/menu_ui.tscn" id="4_ui"]
-[ext_resource type="PackedScene" path="res://addons/godot-xr-tools/functions/function_pointer.tscn" id="5_ptr"]
+[ext_resource type="PackedScene" uid="uid://cqhw276realc" path="res://addons/godot-xr-tools/functions/function_pointer.tscn" id="5_ptr"]
+[ext_resource type="Script" uid="uid://crey3b78bmdm1" path="res://game/menu/main_menu.gd" id="6_menu"]
+[ext_resource type="Script" uid="uid://dgkkifuc23yqn" path="res://game/xr/xr_anchor_in_view.gd" id="7_anchor"]
 
 [sub_resource type="SphereMesh" id="HandMesh"]
 radius = 0.025
 height = 0.05
 
-[node name="MainMenu" type="Node3D"]
+[node name="MainMenu" type="Node3D" unique_id=1009711352]
+script = ExtResource("6_menu")
 
-[node name="StartXR" parent="." instance=ExtResource("1_startxr")]
+[node name="StartXR" parent="." unique_id=1613903359 instance=ExtResource("1_startxr")]
 
-[node name="SynthBackdrop" parent="." instance=ExtResource("2_back")]
+[node name="SynthBackdrop" parent="." unique_id=572291582 instance=ExtResource("2_back")]
 
-[node name="MenuPanel" parent="." instance=ExtResource("3_vp")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.4, -1.4)
+[node name="MenuAnchor" type="Node3D" parent="." unique_id=451222725]
+script = ExtResource("7_anchor")
+camera_path = NodePath("../XROrigin3D/XRCamera3D")
+
+[node name="MenuPanel" parent="MenuAnchor" unique_id=754939036 instance=ExtResource("3_vp")]
 screen_size = Vector2(1.2, 0.96)
 scene = ExtResource("4_ui")
 viewport_size = Vector2(600, 480)
+transparent = 1
+scene_properties_keys = PackedStringArray("menu_ui.gd")
 
-[node name="XROrigin3D" type="XROrigin3D" parent="."]
+[node name="XROrigin3D" type="XROrigin3D" parent="." unique_id=318208513]
 
-[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
+[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D" unique_id=898330059]
 
-[node name="LeftController" type="XRController3D" parent="XROrigin3D"]
+[node name="LeftController" type="XRController3D" parent="XROrigin3D" unique_id=1369633314]
 tracker = &"left_hand"
 
-[node name="HandMesh" type="MeshInstance3D" parent="XROrigin3D/LeftController"]
+[node name="HandMesh" type="MeshInstance3D" parent="XROrigin3D/LeftController" unique_id=654508385]
 mesh = SubResource("HandMesh")
 
-[node name="FunctionPointer" parent="XROrigin3D/LeftController" instance=ExtResource("5_ptr")]
+[node name="FunctionPointer" parent="XROrigin3D/LeftController" unique_id=1003438494 instance=ExtResource("5_ptr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.02, 0.05, -0.1)
 
-[node name="RightController" type="XRController3D" parent="XROrigin3D"]
+[node name="RightController" type="XRController3D" parent="XROrigin3D" unique_id=1175007925]
 tracker = &"right_hand"
 
-[node name="HandMesh" type="MeshInstance3D" parent="XROrigin3D/RightController"]
+[node name="HandMesh" type="MeshInstance3D" parent="XROrigin3D/RightController" unique_id=1671978810]
 mesh = SubResource("HandMesh")
 
-[node name="FunctionPointer" parent="XROrigin3D/RightController" instance=ExtResource("5_ptr")]
+[node name="FunctionPointer" parent="XROrigin3D/RightController" unique_id=1358729548 instance=ExtResource("5_ptr")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.02, 0.05, -0.1)

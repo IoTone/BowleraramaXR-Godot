@@ -146,15 +146,15 @@ mesh = SubResource("BoxMesh_foul")
 surface_material_override/0 = SubResource("Mat_foul")
 
 [node name="BallCradle" type="Marker3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0.25)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.235, 0.25)
 
 [node name="BallHolder" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.9, 0.25)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.17, 0.25)
 mesh = SubResource("Torus_holder")
 surface_material_override/0 = SubResource("Mat_holder")
 
 [node name="Ball" parent="." instance=ExtResource("3_ball")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.95, 0.25)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.235, 0.25)
 freeze = true
 
 [node name="PinRack" type="Node3D" parent="."]
